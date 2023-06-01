@@ -1,0 +1,19 @@
+#vs code
+.vscode
+
+#npm
+package-lock.json
+node_modules
+
+# Hardhat files
+cache
+artifacts
+deployments
+
+#other
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
