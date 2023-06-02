@@ -39,7 +39,6 @@ const deployRaffle: DeployFunction = async function ({
         const deployerSigner = (await ethers.getSigners())[0]
         const VRFCoordinatorV2Mock = await deployments.get("VRFCoordinatorV2Mock")
         const vrfCoordinatorV2Address = VRFCoordinatorV2Mock.address
-        console.log(args)
         const VRFCoordinatorV2MockContract = (await ethers.getContract(
             "VRFCoordinatorV2Mock",
             deployerSigner
