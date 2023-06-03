@@ -3,10 +3,10 @@ import { Address, DeployFunction, DeployResult } from "hardhat-deploy/dist/types
 import { network, ethers } from "hardhat"
 import { networkConfig, localChains } from "../hardhat-helper-config"
 import { verify } from "../utils/verify"
-import { ContractReceipt } from "ethers"
+import { ethers as eth, ContractReceipt } from "ethers"
 import { VRFCoordinatorV2Mock } from "../typechain-types"
 
-const VRF_SUB_FUND_AMOUNT = ethers.utils.parseEther("30")
+const VRF_SUB_FUND_AMOUNT = eth.utils.parseEther("30")
 
 const deployRaffle: DeployFunction = async function ({
     getNamedAccounts,
@@ -36,13 +36,13 @@ const deployRaffle: DeployFunction = async function ({
     ]
 
     if (localChains.includes(network.name)) {
-        const deployerSigner = (await ethers.getSigners())[0]
+        //const deployerSigner = (await ethers.getSigners())[0]
         const VRFCoordinatorV2Mock = await deployments.get("VRFCoordinatorV2Mock")
         const vrfCoordinatorV2Address = VRFCoordinatorV2Mock.address
         const VRFCoordinatorV2MockContract = (await ethers.getContract(
             "VRFCoordinatorV2Mock",
-            deployerSigner
-        )) as VRFCoordinatorV2Mock
+            deployer
+        ))
         const txResp = await VRFCoordinatorV2MockContract.createSubscription()
         const txReceipt = (await txResp.wait(1)) as ContractReceipt
         const eventsArr = txReceipt.events!

@@ -1,21 +1,24 @@
 import { DeployFunction } from "hardhat-deploy/dist/types"
 import { ethers, network } from "hardhat"
 import fs from "fs"
+import { ethers as eth } from "ethers"
 
 const FRONT_END_ADDRESSES_FILE = "../nextjs-raffle-fcc/constants/contractAddresses.json"
 const FRONT_END_ABI_FILE_RAFFLE = "../nextjs-raffle-fcc/constants/raffleAbi.json"
 
-const UpdateFrontEnd: DeployFunction = async function () {
+const UpdateFrontEnd: DeployFunction = async function ({ getNamedAccounts }) {
     if (process.env.UPDATE_FRONT_END) {
         console.log("Updating front end...")
         updateContractAddresses()
         updateRaffleAbi()
     }
     async function updateRaffleAbi() {
-        const raffle = await ethers.getContract("Raffle")
+        const { deployer } = await getNamedAccounts()
+        const raffle = await ethers.getContract("Raffle", deployer)
         fs.writeFileSync(
             FRONT_END_ABI_FILE_RAFFLE,
-            raffle.interface.format(ethers.utils.FormatTypes.json) as string
+            //@ts-ignore
+            raffle.interface.format(eth.utils.FormatTypes.json)
         )
     }
 

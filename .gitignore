@@ -4,6 +4,7 @@
 #npm
 package-lock.json
 node_modules
+yarn.lock
 
 # Hardhat files
 cache
